@@ -1,6 +1,6 @@
 #
-# Consider updating this .gitignore in order to get the below files
-# versioned in your git repo.
+# Consider updating (commenting) this .gitignore lines in order to get the
+# below files versioned in your git repo.
 #
 !.gitignore
 data/
