@@ -94,8 +94,6 @@ This workflow is a little different to the typical Terraform workflows we use. T
    2. Generate a Kops cluster manifest -- it uses `cluster-template.yml` as a template and the outputs from the point above as replacement values
    3. Update Kops state -- it uses the generated Kops cluster manifest in previous point (`cluster.yml`)
    4. Generate Kops Terraform file (`kubernetes.tf`) -- this file represents the changes that Kops needs to apply on the cloud provider
-      - **IMPORTANT:** Kops terraform output (`kops update cluster --target terraform`) is still generated for Terraform `0.11.x` 
-      (https://github.com/kubernetes/kops/issues/7052) we'll take care of the migration when `tf-0.12` gets fully supported.
 4. Run `make plan`
    * To preview any infrastructure changes that Terraform will make
 5. Run `make apply`
@@ -115,6 +113,8 @@ The workflow may look complicated at first but generally it boils down to these 
 
 ## TODO
 
+1. **IMPORTANT:** Kops terraform output (`kops update cluster --target terraform`) is still generated for Terraform `0.11.x` 
+      (https://github.com/kubernetes/kops/issues/7052) we'll take care of the migration when `tf-0.12` gets fully supported.
 ...
 
 ---
