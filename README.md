@@ -20,6 +20,9 @@ These are Kops pre-requisites and they are defined in the `1-prerequisites` dire
 alt="leverage" width="1200"/>
 </div>
 
+**figure-1:** AWS K8s Kops architecture diagram (just as reference).
+
+
 ### Why this workflow
 The workflow follows the same approach that is used to manage other terraform resources in your AWS accounts. 
 E.g. network, identities, and so on.
@@ -35,8 +38,16 @@ fully customize any AWS component without having to alter our Kubernetes cluster
 2. This is a fully declarative coding style approach to manage your infrastructure so being able to declare 
 the state of our cluster in YAML files fits **100% as code & GitOps** based approach.
 
+<div align="center">
+  <img src="https://raw.githubusercontent.com/binbashar/bb-devops-tf-aws-kops/master/figures/binbash-aws-kops-tf.png"
+alt="leverage" width="1200"/>
+</div>
+
+**figure-2:** https://medium.com/bench-engineering/deploying-kubernetes-clusters-with-kops-and-terraform-832b89250e8e
+
 ## Kops Cluster Management
-The `2-kops` directory includes helper scripts and Terraform files ...
+The `2-kops` directory includes helper scripts and Terraform files in order to template our Kubernetes 
+cluster definition. The idea is to use our **Terraform outputs** from `1-prerequisites` to construct a cluster definition.
 
 ### Overview
 Cluster Management via Kops is typically carried out through the kops CLI. In this case, we use a `2-kops` directory that contains a Makefile, Terraform files and other helper scripts that reinforce the workflow we use to create/update/delete the cluster.
@@ -44,36 +55,30 @@ Cluster Management via Kops is typically carried out through the kops CLI. In th
 ### Workflow
 This workflow is a little different to the typical Terraform workflows we use. The full workflow goes as follows:
 1. Modify files under `1-prerequisites`
-  * Mostly before the cluster is created but could be needed afterward
+   * Mostly before the cluster is created but could be needed afterward
 2. Modify `cluster-template.yml`
-  * E.g. to add or remove instance groups, upgrade k8s version, etc
+   * E.g. to add or remove instance groups, upgrade k8s version, etc
 3. Run `make cluster-update`
-  * Get Terraform outputs from `1-prerequisites`
-  * Generate a Kops cluster manifest -- it uses `cluster-template.yml` as a template and the outputs from the point above as replacement values
-  * Update Kops state -- it uses the generated Kops cluster manifest in previous point (`cluster.yml`)
-  * Generate Kops Terraform file -- this file represents the changes that Kops needs to apply on the cloud provider
+   * Get Terraform outputs from `1-prerequisites`
+   * Generate a Kops cluster manifest -- it uses `cluster-template.yml` as a template and the outputs from the point above as replacement values
+   * Update Kops state -- it uses the generated Kops cluster manifest in previous point (`cluster.yml`)
+   * Generate Kops Terraform file -- this file represents the changes that Kops needs to apply on the cloud provider
 4. Run `make plan`
-  * To preview any infrastructure changes that Terraform will make
+   * To preview any infrastructure changes that Terraform will make
 5. Run `make apply`
-  * To apply those infrastructure changes
+   * To apply those infrastructure changes
 6. Run `make cluster-rolling-update`
-  * To determine if Kops needs to trigger some changes to happen right now
-  * These are usually changes to the EC2 instances that won't get reflected as they depend on the autoscaling
+   * To determine if Kops needs to trigger some changes to happen right now
+   * These are usually changes to the EC2 instances that won't get reflected as they depend on the autoscaling
 7. Run `make cluster-rolling-update-yes`
-  * To actually make any changes to the cluster masters/nodes happen
+   * To actually make any changes to the cluster masters/nodes happen
 
+### Tipical Workflow
 The workflow may look complicated at first but generally it boils down to these simplified steps:
 1. Modify `cluster-template.yml`
 2. Run `make cluste-update`
 3. Run `make apply`
 4. Run `make cluster-rolling-update-yes`
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/binbashar/bb-devops-tf-aws-kops/master/figures/binbash-aws-kops-tf.png"
-alt="leverage" width="1200"/>
-</div>
-
-**figure source:** https://medium.com/bench-engineering/deploying-kubernetes-clusters-with-kops-and-terraform-832b89250e8e
 
 ## TODO
 
