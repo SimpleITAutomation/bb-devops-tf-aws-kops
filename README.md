@@ -11,8 +11,38 @@
 ## Kops Pre-requisites
 
 ### Overview
-K8s clusters provisioned by Kops have a number of resources that need to be available before the cluster is created. 
-These are Kops pre-requisites and they are defined in the `1-prerequisites` directory which includes all Terraform files used to create/modify these resources.
+K8s clusters provisioned by Kops have a number of resources that need to be available before the 
+cluster is created. These are Kops pre-requisites and they are defined in the `1-prerequisites` 
+directory which includes all Terraform files used to create/modify these resources.
+
+**IMPORTANT:** The current code has been fully tested with the AWS VPC Network Module 
+https://github.com/binbashar/terraform-aws-vpc
+
+#### OS pre-req packages 
+**Ref Link:** https://github.com/kubernetes/kops/blob/master/docs/install.md)
+
+* **kops** >= *1.14.0*
+```shell
+╰─○ kops version                                                                                      
+Version 1.15.0 (git-9992b4055)
+
+```
+* **kubectl** >= *1.14.0*
+```shell
+╰─○ kubectl version --client
++ kubectl version --client
+Client Version: version.Info{Major:"1", Minor:"14", GitVersion:"v1.14.0", GitCommit:"641856db18352033a0d96dbc99153fa3b27298e5", GitTreeState:"clean", BuildDate:"2019-03-25T15:53:57Z", GoVersion:"go1.12.1", Compiler:"gc", Platform:"linux/amd64"}
+```
+* **terraform** >= *0.12.0*
+```shell
+╰─○ terraform version
+Terraform v0.12.20
+```
+* **jq** >= *1.5.0*
+```shell
+╰─○ jq --version
+jq-1.5-1-a5b5cbe
+```
 
 #### Resulting Solutions Architecture
 <div align="center">
@@ -43,7 +73,7 @@ the state of our cluster in YAML files fits **100% as code & GitOps** based appr
 alt="leverage" width="1200"/>
 </div>
 
-**figure-2:** https://medium.com/bench-engineering/deploying-kubernetes-clusters-with-kops-and-terraform-832b89250e8e
+**figure-2:** Workflow diagram (https://medium.com/bench-engineering/deploying-kubernetes-clusters-with-kops-and-terraform-832b89250e8e)
 
 ## Kops Cluster Management
 The `2-kops` directory includes helper scripts and Terraform files in order to template our Kubernetes 
@@ -55,20 +85,21 @@ Cluster Management via Kops is typically carried out through the kops CLI. In th
 ### Workflow
 This workflow is a little different to the typical Terraform workflows we use. The full workflow goes as follows:
 1. Modify files under `1-prerequisites`
+   * Main files to update probably are `locals.tf` and `outputs.tf`
    * Mostly before the cluster is created but could be needed afterward
 2. Modify `cluster-template.yml`
    * E.g. to add or remove instance groups, upgrade k8s version, etc
-3. Run `make cluster-update`
-   * Get Terraform outputs from `1-prerequisites`
-   * Generate a Kops cluster manifest -- it uses `cluster-template.yml` as a template and the outputs from the point above as replacement values
-   * Update Kops state -- it uses the generated Kops cluster manifest in previous point (`cluster.yml`)
-   * Generate Kops Terraform file -- this file represents the changes that Kops needs to apply on the cloud provider
+3. Run `make cluster-update` will follow the steps below
+   1. Get Terraform outputs from `1-prerequisites`
+   2. Generate a Kops cluster manifest -- it uses `cluster-template.yml` as a template and the outputs from the point above as replacement values
+   3. Update Kops state -- it uses the generated Kops cluster manifest in previous point (`cluster.yml`)
+   4. Generate Kops Terraform file (`kubernetes.tf`) -- this file represents the changes that Kops needs to apply on the cloud provider
 4. Run `make plan`
    * To preview any infrastructure changes that Terraform will make
 5. Run `make apply`
-   * To apply those infrastructure changes
+   * To apply those infrastructure changes on AWS.
 6. Run `make cluster-rolling-update`
-   * To determine if Kops needs to trigger some changes to happen right now
+   * To determine if Kops needs to trigger some changes to happen right now (dry run)
    * These are usually changes to the EC2 instances that won't get reflected as they depend on the autoscaling
 7. Run `make cluster-rolling-update-yes`
    * To actually make any changes to the cluster masters/nodes happen

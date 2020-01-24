@@ -1,0 +1,9 @@
+#
+# Consider updating this .gitignore in order to get the below files
+# versioned in your git repo.
+#
+!.gitignore
+data/
+!data/.gitkeep
+cluster.yml
+kubernetes.tf

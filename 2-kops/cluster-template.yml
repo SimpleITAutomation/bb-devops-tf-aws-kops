@@ -78,15 +78,14 @@ spec:
   #
   sshAccess:
   - {{ .shared_vpc_cidr_block.value }}
-  subnets:
   #
   # This array configures the CIDRs that are able to access the kubernetes API.
   # On AWS this is manifested as inbound security group rules on the ELB or
   # master security groups.
   #
-  spec:
   kubernetesApiAccess:
   - {{ .shared_vpc_cidr_block.value }}
+  subnets:
   #
   # Define all public (utility) subnets that should be available for the cluster
   #
