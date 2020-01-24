@@ -2,48 +2,48 @@
 # Bucket used to store Kops state
 #
 resource "aws_s3_bucket" "kops_state" {
-    bucket = "${var.project}-${var.environment}-kops-state"
-    acl    = "private"
-    # force_destroy = true
+  bucket = "${var.project}-${var.environment}-kops-state"
+  acl    = "private"
+  # force_destroy = true
 
-    versioning {
-        enabled = true
+  versioning {
+    enabled = true
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
     }
+  }
 
-    lifecycle {
-        prevent_destroy = false
+  replication_configuration {
+    role = aws_iam_role.replication.arn
+
+    rules {
+      id     = "standard_bucket_replication"
+      prefix = ""
+      status = "Enabled"
+
+      destination {
+        bucket        = aws_s3_bucket.kops_state_replica.arn
+        storage_class = "STANDARD"
+      }
     }
+  }
 
-    server_side_encryption_configuration {
-        rule {
-            apply_server_side_encryption_by_default {
-                sse_algorithm = "AES256"
-            }
-        }
-    }
-
-    replication_configuration {
-        role = aws_iam_role.replication.arn
-
-        rules {
-            id     = "standard_bucket_replication"
-            prefix = ""
-            status = "Enabled"
-
-            destination {
-                bucket        = aws_s3_bucket.kops_state_replica.arn
-                storage_class = "STANDARD"
-            }
-        }
-    }
-
-    tags = local.tags
+  tags = local.tags
 }
 
 # replica over us-west-2
 # replica resource destination
 resource "aws_s3_bucket" "kops_state_replica" {
-  bucket = "${var.project}-${var.environment}-kops-state-replica"
+  bucket   = "${var.project}-${var.environment}-kops-state-replica"
   provider = aws.region_secondary
 
   versioning {

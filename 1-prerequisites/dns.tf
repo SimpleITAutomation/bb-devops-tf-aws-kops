@@ -2,12 +2,12 @@
 # Private Hosted Zone for this k8s cluster
 #
 resource "aws_route53_zone" "cluster_domain" {
-    name = local.k8s_cluster_name
+  name = local.k8s_cluster_name
 
-    vpc {
-      vpc_id  = data.terraform_remote_state.vpc.outputs.vpc_id
-      vpc_region = var.region
-    }
+  vpc {
+    vpc_id     = data.terraform_remote_state.vpc.outputs.vpc_id
+    vpc_region = var.region
+  }
 
   #
   # This Remote Account VPCs are added as a post step after the local-exec assoc occurs.
@@ -22,10 +22,10 @@ resource "aws_route53_zone" "cluster_domain" {
   #      ]
   #  }
 
-    vpc {
-      vpc_id     = data.terraform_remote_state.vpc_shared.outputs.vpc_id
-      vpc_region = var.region
-    }
+  vpc {
+    vpc_id     = data.terraform_remote_state.vpc_shared.outputs.vpc_id
+    vpc_region = var.region
+  }
 }
 
 
@@ -45,7 +45,7 @@ resource "aws_route53_zone" "cluster_domain" {
 # Request Association between Private Hosted Zone on DevStg (cluster-kops-1.k8s.dev.binbash.aws) with Shared VPC
 #
 resource "null_resource" "create_remote_zone_auth" {
-    provisioner "local-exec" {
-        command = "aws route53 create-vpc-association-authorization --profile ${var.profile} --hosted-zone-id ${aws_route53_zone.cluster_domain.zone_id} --vpc VPCRegion=${var.region},VPCId=${data.terraform_remote_state.vpc_shared.outputs.vpc_id}"
-    }
+  provisioner "local-exec" {
+    command = "aws route53 create-vpc-association-authorization --profile ${var.profile} --hosted-zone-id ${aws_route53_zone.cluster_domain.zone_id} --vpc VPCRegion=${var.region},VPCId=${data.terraform_remote_state.vpc_shared.outputs.vpc_id}"
+  }
 }
