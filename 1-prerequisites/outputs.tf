@@ -96,9 +96,9 @@ output "vpc_cidr_block" {
 }
 output "availability_zones" {
   value = [
-  tostring(data.terraform_remote_state.vpc.outputs.availability_zones[0][0]),
-  tostring(data.terraform_remote_state.vpc.outputs.availability_zones[0][1]),
-  tostring(data.terraform_remote_state.vpc.outputs.availability_zones[0][2])
+    tostring(data.terraform_remote_state.vpc.outputs.availability_zones[0][0]),
+    tostring(data.terraform_remote_state.vpc.outputs.availability_zones[0][1]),
+    tostring(data.terraform_remote_state.vpc.outputs.availability_zones[0][2])
   ]
 }
 
