@@ -33,11 +33,14 @@ Version 1.15.0 (git-9992b4055)
 + kubectl version --client
 Client Version: version.Info{Major:"1", Minor:"14", GitVersion:"v1.14.0", GitCommit:"641856db18352033a0d96dbc99153fa3b27298e5", GitTreeState:"clean", BuildDate:"2019-03-25T15:53:57Z", GoVersion:"go1.12.1", Compiler:"gc", Platform:"linux/amd64"}
 ```
-* **terraform** >= *0.12.0*
+* **terraform** >= *0.12.0* 
 ```shell
 ╰─○ terraform version
 Terraform v0.12.20
 ```
+- **NOTE1:** Regarding Terraform versions please also consider https://github.com/binbashar/bb-devops-tf-aws-kops#todo
+- **NOTE2:** These dependencies will me mostly covered via `Makefile` w/ terraform dockerized cmds (https://hub.docker.com/repository/docker/binbash/terraform-resources)
+
 * **jq** >= *1.5.0*
 ```shell
 ╰─○ jq --version
