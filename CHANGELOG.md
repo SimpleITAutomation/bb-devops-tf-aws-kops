@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.0.2"></a>
+## [v0.0.2] - 2020-01-27
+### Pull Requests
+- Merge pull request [#3](https://github.com/binbashar/bb-devops-tf-aws-kops/issues/3) from binbashar/BBL-80-ref-arch-aws-kops
+
+
 <a name="v0.0.1"></a>
 ## v0.0.1 - 2020-01-27
 ### Pull Requests
@@ -9,4 +15,5 @@
 - Merge pull request [#1](https://github.com/binbashar/bb-devops-tf-aws-kops/issues/1) from binbashar/BBL-80-ref-arch-aws-kops
 
 
-[Unreleased]: https://github.com/binbashar/bb-devops-tf-aws-kops/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/binbashar/bb-devops-tf-aws-kops/compare/v0.0.2...HEAD
+[v0.0.2]: https://github.com/binbashar/bb-devops-tf-aws-kops/compare/v0.0.1...v0.0.2
