@@ -42,7 +42,7 @@ spec:
       encryptedVolume: true
   {{ end }}
     name: main
-    version: 3.3.10
+    version: {{ .etcd_clusters_version.value }}
   - etcdMembers:
   {{ range $i, $az := .cluster_master_azs.value }}
     - instanceGroup: master-{{ . }}
@@ -50,7 +50,7 @@ spec:
       encryptedVolume: true
   {{ end }}
     name: events
-    version: 3.3.10
+    version: {{ .etcd_clusters_version.value }}
   iam:
     allowContainerRegistry: true
     legacy: true
@@ -65,11 +65,10 @@ spec:
   networkID: {{ .vpc_id.value }}
   #
   # Ref1: https://github.com/kubernetes/kops/blob/master/docs/networking.md
-  # Ref2: https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-36475925a560
   #
   networking:
     calico:
-      majorVersion: v3
+      majorVersion: {{ .networking_calico_major_version.value }}
   nonMasqueradeCIDR: 100.64.0.0/10
   #
   # This array configures the CIDRs that are able to ssh into nodes. On AWS this

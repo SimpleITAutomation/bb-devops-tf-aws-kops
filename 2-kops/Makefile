@@ -66,11 +66,12 @@ diff: ## Terraform plan with landscape
 	-var-file=${TF_DOCKER_EXTRA_CONF_VARS_FILE} ${TF_PWD_CONT_DIR} \
 	| docker run -i --rm binbash/terraform-landscape
 
-apply: ## Make terraform apply any changes with local binary
-	terraform apply \
-	 -var-file=..${TF_DOCKER_BACKEND_CONF_VARS_FILE} \
-	 -var-file=..${TF_DOCKER_BASE_CONF_VARS_FILE} \
-	 -var-file=..${TF_DOCKER_EXTRA_CONF_VARS_FILE}
+apply: apply-cmd tf-dir-chmod ## Make terraform apply any changes with dockerized binary
+apply-cmd:
+	${TF_CMD_PREFIX} apply \
+	-var-file=${TF_DOCKER_BACKEND_CONF_VARS_FILE} \
+	-var-file=${TF_DOCKER_BASE_CONF_VARS_FILE} \
+	-var-file=${TF_DOCKER_EXTRA_CONF_VARS_FILE} ${TF_PWD_CONT_DIR}
 
 output: ## Terraform output command is used to extract the value of an output variable from the state file.
 	${TF_CMD_PREFIX} output
