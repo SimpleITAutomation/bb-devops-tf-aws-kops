@@ -21,6 +21,14 @@ output "cluster_version" {
   description = "Kubernetes version"
   value       = local.k8s_cluster_version
 }
+output "etcd_clusters_version" {
+  description = "etcd version"
+  value       = local.etcd_clusters_version
+}
+output "networking_calico_major_version" {
+  description = "Calico network CNI major version"
+  value       = local.networking_calico_major_version
+}
 
 #
 # Cluster Master Instance Group (IG)
@@ -58,15 +66,15 @@ output "node_cloud_labels" {
 }
 output "kops_worker_machine_type" {
   description = "K8s Kops Worker Nodes Machine (EC2) type and size"
-  value       = local.kops_master_machine_type
+  value       = local.kops_worker_machine_type
 }
 output "kops_worker_machine_max_size" {
   description = "K8s Kops Worker Nodes ASG max size"
-  value       = local.kops_master_machine_max_size
+  value       = local.kops_worker_machine_max_size
 }
 output "kops_worker_machine_min_size" {
   description = "K8s Kops Worker Nodes ASG min size"
-  value       = local.kops_master_machine_min_size
+  value       = local.kops_worker_machine_min_size
 }
 
 #

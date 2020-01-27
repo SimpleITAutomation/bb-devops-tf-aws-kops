@@ -116,9 +116,11 @@ The workflow may look complicated at first but generally it boils down to these 
 
 ## TODO
 
-**IMPORTANT:** Kops terraform output (`kops update cluster --target terraform`) is still generated for Terraform `0.11.x` 
+1. **IMPORTANT:** Kops terraform output (`kops update cluster --target terraform`) is still generated for Terraform `0.11.x` 
       (https://github.com/kubernetes/kops/issues/7052) we'll take care of the migration when `tf-0.12` gets fully supported.
 
+2. Create a Binbash Leverage public Confluence Wiki entry detailing some more info about etcd, calico and k8s versions
+compatibilities
 ---
 
 # Release Management
