@@ -15,10 +15,10 @@ provider "aws" {
 
 # Backend Config (partial)
 terraform {
-  required_version = ">= 0.12.19"
+  required_version = ">= 0.12.20"
 
   backend "s3" {
-    key = "dev/k8s-kops/prerequisites/terraform.tfstate"
+    key = "apps-devstg/k8s-kops/prerequisites/terraform.tfstate"
   }
 }
 
