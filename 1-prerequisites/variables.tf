@@ -69,7 +69,7 @@ variable "shared_account_id" {
   description = "Account: Shared Resources"
 }
 
-variable "dev_account_id" {
+variable "appsdevstg_account_id" {
   type        = string
   description = "Account: Dev Modules & Libs"
 }
@@ -77,4 +77,13 @@ variable "dev_account_id" {
 variable "cloudtrail_org_bucket" {
   type        = string
   description = "Cloudtrail centralized organization bucket"
+}
+
+#===========================================#
+# DNS                                       #
+#===========================================#
+variable "vpc_shared_dns_assoc" {
+  description = "true if Shared account VPC exists and needs DNS association"
+  type        = bool
+  default     = true
 }
