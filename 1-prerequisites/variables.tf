@@ -1,17 +1,12 @@
 #
 # config/backend.config
 #
-#=============================#
-# AWS Provider Settings       #
-#=============================#
+#================================#
+# Terraform AWS Backend Settings #
+#================================#
 variable "region" {
   type        = string
   description = "AWS Region"
-}
-
-variable "region_secondary" {
-  type        = string
-  description = "AWS Scondary Region for HA"
 }
 
 variable "profile" {
@@ -57,8 +52,13 @@ variable "environment" {
 # config/extra.config
 #
 #=============================#
-# Accounts                    #
+# Accounts & Extra Vars       #
 #=============================#
+variable "region_secondary" {
+  type        = string
+  description = "AWS Scondary Region for HA"
+}
+
 variable "security_account_id" {
   type        = string
   description = "Account: Security & Users Management"

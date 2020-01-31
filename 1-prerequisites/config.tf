@@ -1,16 +1,18 @@
 # Providers
 provider "aws" {
-  version = "~> 2.40"
-  region  = var.region
-  profile = var.profile
+  version                 = "~> 2.46"
+  region                  = var.region
+  profile                 = var.profile
+  shared_credentials_file = "~/.aws/config"
 }
 
 #replica provider
 provider "aws" {
-  version = "~> 2.40"
-  alias   = "region_secondary"
-  region  = var.region_secondary
-  profile = var.profile
+  version                 = "~> 2.46"
+  alias                   = "region_secondary"
+  region                  = var.region_secondary
+  profile                 = var.profile
+  shared_credentials_file = "~/.aws/config"
 }
 
 # Backend Config (partial)
@@ -39,7 +41,7 @@ data "terraform_remote_state" "vpc_shared" {
   config = {
     region  = var.region
     profile = "bb-shared-devops"
-    bucket  = "bb-shared-terraform-state-storage-s3"
+    bucket  = "bb-shared-terraform-backend"
     key     = "shared/network/terraform.tfstate"
   }
 }
